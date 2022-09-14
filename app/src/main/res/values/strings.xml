@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Cram Cards</string>
+    <string name="who_was_the_third_president_of_the_united_states">Who was the third President of the United States?</string>
+    <string name="thomas_jefferson">Thomas Jefferson</string>
+    <string name="alexander_hamilton">Alexander Hamilton</string>
+    <string name="john_adams">John Adams</string>
+    <string name="hide_choices">Hide Choices</string>
 </resources>

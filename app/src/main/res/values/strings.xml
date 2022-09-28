@@ -5,4 +5,5 @@
     <string name="alexander_hamilton">Alexander Hamilton</string>
     <string name="john_adams">John Adams</string>
     <string name="hide_choices">Hide Choices</string>
+    <string name="add_question">add question</string>
 </resources>

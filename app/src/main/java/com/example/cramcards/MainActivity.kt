@@ -1,9 +1,11 @@
 package com.example.cramcards
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +19,22 @@ class MainActivity : AppCompatActivity() {
         val multipleChoice1 = findViewById<TextView>(R.id.answer1)
         val multipleChoice3 = findViewById<TextView>(R.id.answer3)
         val hideIcon = findViewById<ImageView>(R.id.toggle_choices_visibility)
+        val addQuestionButton = findViewById<ImageView>(R.id.add_question_button)
+
+
         var isShowingAnswers = true
+        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                result ->
+            val data: Intent? = result.data
+
+            if(data != null) {
+                val questionString = data.getStringExtra("QUESTION_KEY")
+                val answerString = data.getStringExtra("ANSWER_KEY")
+
+                flashcardQuestion.text = questionString
+                flashcardAnswer.text = answerString
+            }
+        }
 
 
         hideIcon.setOnClickListener{
@@ -25,13 +42,13 @@ class MainActivity : AppCompatActivity() {
                 multipleChoice1.visibility = View.INVISIBLE
                 multipleChoice2.visibility = View.INVISIBLE
                 multipleChoice3.visibility = View.INVISIBLE
-                findViewById<ImageView>(R.id.toggle_choices_visibility).setImageResource(R.drawable.show_icon)
+                hideIcon.setImageResource(R.drawable.show_icon)
                 isShowingAnswers = false}
             else {
                 multipleChoice1.visibility = View.VISIBLE
                 multipleChoice2.visibility = View.VISIBLE
                 multipleChoice3.visibility = View.VISIBLE
-                findViewById<ImageView>(R.id.toggle_choices_visibility).setImageResource(R.drawable.hide_icon)
+                hideIcon.setImageResource(R.drawable.hide_icon)
                 isShowingAnswers = true}
         }
 
@@ -56,5 +73,12 @@ class MainActivity : AppCompatActivity() {
             multipleChoice3.setTextColor(resources.getColor(R.color.beige))
             multipleChoice2.setBackgroundColor(resources.getColor(R.color.green_right))
         }
+
+        addQuestionButton.setOnClickListener {
+            val intent = Intent(this, AddCardActivity::class.java)
+            resultLauncher.launch(intent)
+        }
+
+
     }
 }

@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
     <TextView
 
         android:id="@+id/flashcard_question"
@@ -100,5 +102,16 @@
         android:id="@+id/toggle_choices_visibility"
         android:src="@drawable/hide_icon"
         android:contentDescription="@string/hide_choices"/>
+
+    <ImageView
+        android:id="@+id/add_question_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:contentDescription="@string/add_question" />
+
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         val multipleChoice3 = findViewById<TextView>(R.id.answer3)
         val hideIcon = findViewById<ImageView>(R.id.toggle_choices_visibility)
         val addQuestionButton = findViewById<ImageView>(R.id.add_question_button)
+        val editQuestionButton = findViewById<ImageView>(R.id.edit_question_button)
 
 
         var isShowingAnswers = true
@@ -33,6 +35,10 @@ class MainActivity : AppCompatActivity() {
 
                 flashcardQuestion.text = questionString
                 flashcardAnswer.text = answerString
+                Snackbar.make(findViewById(R.id.flashcard_question),
+                    "Card created!",
+                    Snackbar.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -76,6 +82,15 @@ class MainActivity : AppCompatActivity() {
 
         addQuestionButton.setOnClickListener {
             val intent = Intent(this, AddCardActivity::class.java)
+            resultLauncher.launch(intent)
+        }
+
+        editQuestionButton.setOnClickListener {
+            val currentQuestionString = flashcardQuestion.text.toString()
+            val currentAnswerString = flashcardAnswer.text.toString()
+            val intent = Intent(this, AddCardActivity::class.java)
+            intent.putExtra("CURRENT_QUESTION_KEY", currentQuestionString)
+            intent.putExtra("CURRENT_ANSWER_KEY", currentAnswerString)
             resultLauncher.launch(intent)
         }
 

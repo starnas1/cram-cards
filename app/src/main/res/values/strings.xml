@@ -6,4 +6,8 @@
     <string name="john_adams">John Adams</string>
     <string name="hide_choices">Hide Choices</string>
     <string name="add_question">add question</string>
+    <string name="enter_the_answer_here">Enter the answer here</string>
+    <string name="save_button">save button</string>
+    <string name="cancel_button">cancel button</string>
+    <string name="enter_the_question_here">Enter the question here</string>
 </resources>

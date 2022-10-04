@@ -5,7 +5,7 @@
 A mobile flashcard app to help you study wherever you are.
 
 ### App Walk-though
-<img src="/MAD_Lab1.gif" width=200><br>
+<img src="/MAD_Lab2.gif" width=200><br>
 
 ## Required
 - [x] User can click on a ‘+’ button that takes the user to new ‘Add Card Screen’

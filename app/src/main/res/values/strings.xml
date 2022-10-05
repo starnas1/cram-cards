@@ -10,4 +10,6 @@
     <string name="save_button">save button</string>
     <string name="cancel_button">cancel button</string>
     <string name="enter_the_question_here">Enter the question here</string>
+    <string name="next_question">Next question</string>
+    <string name="delete_question">Delete question</string>
 </resources>

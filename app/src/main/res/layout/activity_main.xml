@@ -107,11 +107,12 @@
         android:id="@+id/add_question_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_add"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="20dp"
-        android:contentDescription="@string/add_question" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/add_question"
+        android:src="@drawable/icon_add" />
 
     <ImageView
         android:id="@+id/edit_question_button"
@@ -122,5 +123,27 @@
         android:layout_alignParentStart="true"
         android:layout_margin="20dp"
         android:contentDescription="@string/add_question" />
+
+    <ImageView
+        android:id="@+id/next_question_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/flashcard_question"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="@string/next_question"
+        android:src="@drawable/icon_next" />
+
+    <ImageView
+        android:id="@+id/delete_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/flashcard_question"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="@string/delete_question"
+        android:src="@drawable/icon_trash" />
 
 </RelativeLayout>

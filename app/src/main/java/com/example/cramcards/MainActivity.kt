@@ -2,6 +2,7 @@ package com.example.cramcards
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,10 +10,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
+lateinit var flashcardDatabase: FlashcardDatabase
+var allFlashcards = mutableListOf<Flashcard>()
+
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var flashcardDatabase: FlashcardDatabase
+    private var allFlashcards = mutableListOf<Flashcard>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        flashcardDatabase = FlashcardDatabase(this)
+        allFlashcards = flashcardDatabase.getAllCards().toMutableList()
 
         val flashcardQuestion = findViewById<TextView>(R.id.flashcard_question)
         val flashcardAnswer = findViewById<TextView>(R.id.flashcard_answer)
@@ -22,6 +33,13 @@ class MainActivity : AppCompatActivity() {
         val hideIcon = findViewById<ImageView>(R.id.toggle_choices_visibility)
         val addQuestionButton = findViewById<ImageView>(R.id.add_question_button)
         val editQuestionButton = findViewById<ImageView>(R.id.edit_question_button)
+        val nextQuestionButton = findViewById<ImageView>(R.id.next_question_button)
+        var currentCardDisplayedIndex = 0
+
+        if (allFlashcards.size > 0) {
+            flashcardQuestion.text = allFlashcards[0].question
+            flashcardAnswer.text = allFlashcards[0].answer
+        }
 
 
         var isShowingAnswers = true
@@ -35,11 +53,33 @@ class MainActivity : AppCompatActivity() {
 
                 flashcardQuestion.text = questionString
                 flashcardAnswer.text = answerString
+
+                if (questionString != null && answerString != null) {
+
+
+                    flashcardDatabase.insertCard(
+                        Flashcard(
+                            questionString.toString(),
+                            answerString.toString()
+                        )
+                    )
+
+                    allFlashcards = flashcardDatabase.getAllCards().toMutableList()
+                } else {
+                    Log.e("MainActivity", "Missing question or answer input. Question is $questionString and answer is $answerString")
+                }
+
                 Snackbar.make(findViewById(R.id.flashcard_question),
                     "Card created!",
                     Snackbar.LENGTH_SHORT)
                     .show()
+
+
+
+            } else {
+                Log.i("MainActivity", "Returned null data from AddCardActivity")
             }
+
         }
 
 
@@ -92,6 +132,26 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("CURRENT_QUESTION_KEY", currentQuestionString)
             intent.putExtra("CURRENT_ANSWER_KEY", currentAnswerString)
             resultLauncher.launch(intent)
+        }
+
+        nextQuestionButton.setOnClickListener {
+            if (allFlashcards.size == 0) {
+                return@setOnClickListener
+            }
+            currentCardDisplayedIndex++
+
+            if(currentCardDisplayedIndex >= allFlashcards.size) {
+                Snackbar.make(
+                    flashcardQuestion,
+                    "You've reached the end of the cards, going back to start",
+                    Snackbar.LENGTH_SHORT).show()
+                currentCardDisplayedIndex = 0
+            }
+            allFlashcards = flashcardDatabase.getAllCards().toMutableList()
+            val (question, answer) = allFlashcards[currentCardDisplayedIndex]
+
+            flashcardQuestion.text = question
+            flashcardAnswer.text = answer
         }
 
 

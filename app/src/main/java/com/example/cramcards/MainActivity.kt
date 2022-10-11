@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         val addQuestionButton = findViewById<ImageView>(R.id.add_question_button)
         val editQuestionButton = findViewById<ImageView>(R.id.edit_question_button)
         val nextQuestionButton = findViewById<ImageView>(R.id.next_question_button)
+        val deleteQuestionButton = findViewById<ImageView>(R.id.delete_question_button)
         var currentCardDisplayedIndex = 0
 
         if (allFlashcards.size > 0) {
@@ -135,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         nextQuestionButton.setOnClickListener {
-            if (allFlashcards.size == 0) {
+            if (allFlashcards.isEmpty()) {
                 return@setOnClickListener
             }
             currentCardDisplayedIndex++
@@ -152,6 +153,33 @@ class MainActivity : AppCompatActivity() {
 
             flashcardQuestion.text = question
             flashcardAnswer.text = answer
+        }
+
+        deleteQuestionButton.setOnClickListener {
+
+            val flashcardQuestionToDelete = flashcardQuestion.text.toString()
+            flashcardDatabase.deleteCard(flashcardQuestionToDelete)
+
+
+            currentCardDisplayedIndex++
+
+            if(currentCardDisplayedIndex >= allFlashcards.size) {
+                Snackbar.make(
+                    flashcardQuestion,
+                    "You've reached the end of the cards, going back to start",
+                    Snackbar.LENGTH_SHORT).show()
+                currentCardDisplayedIndex = 0
+            }
+
+
+
+
+
+
+
+
+
+
         }
 
 

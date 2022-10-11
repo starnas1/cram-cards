@@ -6,7 +6,7 @@
 A mobile flashcard app to help you study wherever you are.
 
 ### App Walk-though
-<img src="/MAD_Lab3.gif" width=200><br>r>
+<img src="/MAD_Lab3.gif" width=200><br>
 
 ## Required
 - [x] User can create a card and still see their created card when the app is relaunched.

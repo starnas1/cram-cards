@@ -2,13 +2,18 @@ package com.example.cramcards
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlin.math.hypot
 
 lateinit var flashcardDatabase: FlashcardDatabase
 var allFlashcards = mutableListOf<Flashcard>()
@@ -17,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var flashcardDatabase: FlashcardDatabase
     private var allFlashcards = mutableListOf<Flashcard>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +41,17 @@ class MainActivity : AppCompatActivity() {
         val editQuestionButton = findViewById<ImageView>(R.id.edit_question_button)
         val nextQuestionButton = findViewById<ImageView>(R.id.next_question_button)
         val deleteQuestionButton = findViewById<ImageView>(R.id.delete_question_button)
+        val timer = findViewById<TextView>(R.id.timer)
+
         var currentCardDisplayedIndex = 0
+        var countDownTimer: CountDownTimer? = null
+
+        fun startTimer() {
+            countDownTimer?.cancel()
+            countDownTimer?.start()
+        }
+
+
 
         if (allFlashcards.size > 0) {
             flashcardQuestion.text = allFlashcards[0].question
@@ -100,8 +116,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         flashcardQuestion.setOnClickListener {
+            val cx = flashcardAnswer.width / 2
+            val cy = flashcardAnswer.height / 2
+
+            val finalRadius = hypot(cx.toDouble(), cy.toDouble()).toFloat()
+
+            val anim = ViewAnimationUtils.createCircularReveal(flashcardAnswer, cx, cy, 0f, finalRadius)
+
             it.visibility = View.INVISIBLE
             flashcardAnswer.visibility = View.VISIBLE
+
+            anim.duration = 1000
+            anim.start()
         }
         flashcardAnswer.setOnClickListener {
             flashcardQuestion.visibility = View.VISIBLE
@@ -124,6 +150,7 @@ class MainActivity : AppCompatActivity() {
         addQuestionButton.setOnClickListener {
             val intent = Intent(this, AddCardActivity::class.java)
             resultLauncher.launch(intent)
+            overridePendingTransition(R.anim.right_in, R.anim.left_out)
         }
 
         editQuestionButton.setOnClickListener {
@@ -150,9 +177,34 @@ class MainActivity : AppCompatActivity() {
             }
             allFlashcards = flashcardDatabase.getAllCards().toMutableList()
             val (question, answer) = allFlashcards[currentCardDisplayedIndex]
+            val leftOutAnim = AnimationUtils.loadAnimation(this, R.anim.left_out)
+            val rightInAnim = AnimationUtils.loadAnimation(this, R.anim.right_in)
+
+            leftOutAnim.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+
+                }
+
+                override fun onAnimationRepeat(animation: Animation?) {
+
+                }
+            })
+
+            flashcardQuestion.startAnimation(leftOutAnim)
+            flashcardQuestion.startAnimation(rightInAnim)
 
             flashcardQuestion.text = question
             flashcardAnswer.text = answer
+
+            overridePendingTransition(R.anim.right_in, R.anim.left_out)
+
+            startTimer()
+
+
+
         }
 
         deleteQuestionButton.setOnClickListener {
@@ -171,16 +223,17 @@ class MainActivity : AppCompatActivity() {
                 currentCardDisplayedIndex = 0
             }
 
-
-
-
-
-
-
-
-
-
         }
+
+        countDownTimer = object : CountDownTimer(16000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                timer.text = "${millisUntilFinished / 1000}"
+            }
+
+            override fun onFinish() {}
+        }
+
+
 
 
     }

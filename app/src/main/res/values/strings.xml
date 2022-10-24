@@ -12,4 +12,5 @@
     <string name="enter_the_question_here">Enter the question here</string>
     <string name="next_question">Next question</string>
     <string name="delete_question">Delete question</string>
+    <string name="_00">00</string>
 </resources>

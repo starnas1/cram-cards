@@ -1,5 +1,24 @@
 # Cram Cards
 
+## Lab 4
+
+### App Description
+A mobile flashcard app to help you study wherever you are.
+
+### App Walk-though
+<img src="/MAD_Lab4.gif" width=200><br>
+
+
+## Required
+- [x] User sees a transition animation when going from the main screen to the add card screen
+- [x] User sees a reveal animation when the flashcard is tapped and the answer is shown
+- [x] User sees flashcards animating in / out when the 'next' button is tapped
+
+## Optional
+- [x] Extra styling is added!
+- [x] User sees a countdown timer for each question
+
+
 ## Lab 3
 
 ### App Description
@@ -11,8 +30,6 @@ A mobile flashcard app to help you study wherever you are.
 ## Required
 - [x] User can create a card and still see their created card when the app is relaunched.
 - [x] User can create multiple cards and browse through all created cards
-
-
 
 
 ## Lab 2
